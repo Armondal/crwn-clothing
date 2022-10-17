@@ -1,10 +1,10 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app'
 import {
 	getAuth,
 	signInWithRedirect,
 	signInWithPopup,
 	GoogleAuthProvider,
-} from 'firebase/auth';
+} from 'firebase/auth'
 
 import {
 	gerFirestore,
@@ -12,7 +12,7 @@ import {
 	getDoc,
 	setDoc,
 	getFirestore,
-} from 'firebase/firestore';
+} from 'firebase/firestore'
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyDMjNO9tcr-BOb_GrYZMi4BdJf15EPwvL8',
@@ -21,37 +21,37 @@ const firebaseConfig = {
 	storageBucket: 'crown-clothing-db-bba46.appspot.com',
 	messagingSenderId: '739877246604',
 	appId: '1:739877246604:web:1380e22e1927f921294da9',
-};
+}
 
-const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig)
 
-const provider = new GoogleAuthProvider();
+const provider = new GoogleAuthProvider()
 
 provider.setCustomParameters({
 	prompt: 'select_account',
-});
+})
 
-export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-export const db = getFirestore();
+export const auth = getAuth()
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
+export const db = getFirestore()
 export const createUserDocumentFromAuth = async (userAuth) => {
-	const userDocRef = doc(db, 'users', userAuth.uid);
-	const userSnapshot = await getDoc(userDocRef);
-	console.log(userDocRef);
-	console.log(userSnapshot.exists());
+	const userDocRef = doc(db, 'users', userAuth.uid)
+	const userSnapshot = await getDoc(userDocRef)
+	console.log(userDocRef)
+	console.log(userSnapshot.exists())
 	if (!userSnapshot.exists()) {
-		const { displayName, email } = userAuth;
-		const createdAt = new Date();
+		const { displayName, email } = userAuth
+		const createdAt = new Date()
 
 		try {
 			await setDoc(userDocRef, {
 				displayName,
 				email,
 				createdAt,
-			});
+			})
 		} catch (error) {
-			console.log('error creating the user', error.message);
+			console.log('error creating the user', error.message)
 		}
 	}
-	return userDocRef;cc
-};
+	return userDocRef
+}
